@@ -86,6 +86,7 @@ class Assassino(Jogador):
 												
 		# ---------------------------------------------------------------------------------------------------------
 		"""
+                
 			A inteligência artificial dos anjos será a mesma que a dos assassinos,
 			apenas o objetivo que será diferente.
 			Tanto os anjos, quantos os assassinos, aprenderão sobre todos os BOTS,

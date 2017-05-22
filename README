@@ -3,3 +3,17 @@ Projeto Final - Inteligência Artificial
 Baseado no jogo chamado "Cidade Dorme",
 estou a implementar algumas inteligências para os diferentes personagens,
 no intuito de qualquer usuário poder jogar e desafiar-se a ganhar do computador.
+
+
+
+Objetivos do jogo original:
+	
+Cidadãos 	devem tentar eliminar 	os assassinos 	através da votação, e também encobrirem os anjos e o detetive para quem os assasinos não os descubram
+Assassinos 	devem tentar matar 		a  cidade,    	enganar a cidade para votarem em outras pessoas e tentarem não ser descobertos
+Anjos 		devem tentar descobrir 	o  detetive 	para tentar salva-lo, tentarem não serem descobertos e tentarem salvar o máximo de pessoas
+Detetive	deve  tentar descobrir 	os assassinos 	e convencer a cidade a votarem neles, além de tentar não ser descoberto
+
+Lembrando que na votação a pessoa é ELIMINADA
+Já, os assasinos podem tentar MATAR alguém.
+Em ambos casos significa que essa pessoa eliminada/morta deixará de jogar até o fim da partida,
+mas uma coisa é uma coisa e outra coisa é outra coisa kkkkkkkk
