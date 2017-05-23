@@ -1,13 +1,29 @@
 from Jogador 	import Jogador
 from random 	import choice
 
-class Assassino(Jogador):
+class Assassino(Jogador):	
 	def __init__(self, nome = None, saude = 'Vivo', honestidade = 0, analisado = None):
 		super().__init__(nome,saude,honestidade,analisado)
-		self.assassinos = {}									# Dicionário para que os assassinos se conheçam
+		self.assassinos = {}															# Dicionário para que os assassinos se conheçam
+		self.tentativas = []
+		self.cntMilagres = 0
+
+	def aleatorio(self,jogadores):
+		# Retorna algum valor aleatório:
+			vivos = {}
+			for nomeKey, jogador in jogadores.items():
+				if jogador.saude == 'Vivo' and jogador.getClass() != 'Assassino': 		# Assassino não comete suicídio e nem mata alguém que já está morto
+					vivos[nomeKey] = jogador											# Tanto faz o value, o importante será o nomeKey
+			
+			nomeVivos 	= list  ( vivos.keys() )
+			jogador 	= jogadores[ choice( nomeVivos ) ] 								# Seleciona algum BOT que ainda esteja vivo
+			
+			return jogador.nome.lower()
 	
 	# -----------------------------------------------------------------------------------------------------------------------------------------------------------------	
 	def escolherAlguem(self, jogadores, partida):
+		deadlock = self.cntMilagres >= 2 and self.tentativas[-1] == self.tentativas[-2]
+		
 		# ---------------------------------------------------------------------------------------------------------
 		if self.analisado is not None and (partida > 1): 		 	# Não é possível escolher alguém se nunca jogamos, e não existe inteligência na primeira partida!
 			escolhas 			= {}
@@ -19,15 +35,20 @@ class Assassino(Jogador):
 				jogador = jogadores[nomeKey]
 				
 				if jogador.getClass() != 'Assassino' and jogador.saude == 'Vivo':	# Assassino não comete suicídio e nem mata alguém que já está morto
-					aux1 = analise['verdades'] / len(analise)
-					aux2 = analise['mentiras'] / len(analise)
+					qtdTotal = analise['verdades'] + analise['mentiras']
+					
+					aux1 = analise['verdades'] / qtdTotal
+					aux2 = analise['mentiras'] / qtdTotal
 				
 					escolhas[nomeKey] = (aux1,aux2)
 			
 			# ---------------------------------------------------------------------------
-			# Existe escolha?
+			# Caso exista escolha e não tenha ocorrido um deadlock:
 			
-			if len(escolhas) > 0:
+			#print('Escolhas dos Assassinos:',escolhas) 				# DEBUG
+			#print('Deadlock',deadlock) 								# DEBUG
+			
+			if len(escolhas) > 0 and not (deadlock):
 				# ---------------------------------------------
 				# Classificando as escolhas:
 				for nomeKey, (aux1,aux2) in escolhas.items():
@@ -50,29 +71,30 @@ class Assassino(Jogador):
 					
 				# ---------------------------------------------
 				# Melhor escolha:
-				melhoresEscolhas = list( melhoresEscolhas.keys() )							# Se só tem uma, vai retorna ela, senão,...
-				melhorEscolha 	 = choice( melhoresEscolhas )								# ... vai retornar de forma aleatória uma das melhores escolhas
+				melhoresEscolhas = list( melhoresEscolhas.keys() )						# Se só tem uma, vai retorna ela, senão,...
+				melhorEscolha 	 = choice( melhoresEscolhas )							# ... vai retornar de forma aleatória uma das melhores escolhas
 				
+				self.tentativas.append(melhorEscolha)
 				return melhorEscolha
 				
 			# ---------------------------------------------------------------------------
 			# Se o usuário só perguntou sobre assassinos e pessoas que estão mortas, dicionário 'escolha' será vazio, logo, temos que escolher aleatoriamente:
-			else:
-				# Retorna algum valor aleatório:
-				vivos = {}
-				for nomeKey, jogador in jogadores.items():
-					if jogador.saude == 'Vivo' and jogador.getClass() != 'Assassino': 		# Assassino não comete suicídio e nem mata alguém que já está morto
-						vivos[nomeKey] = jogador											# Tanto faz o value, o importante será o nomeKey
-				
-				nomeVivos 		= list  ( vivos.keys() )
-				jogador 		= jogadores[ choice( nomeVivos ) ] 							# Seleciona algum BOT que ainda esteja vivo
-				
-				return jogador.nome.lower()
-				
+			else:					
+				self.cntMilagres = 0 									# Vamos zerar a variável, para que possamos analisar próximos deadlocks
+				tentarMatar = self.aleatorio(jogadores)
+				self.tentativas.append(tentarMatar)
+				return tentarMatar
+								
 		# ---------------------------------------------------------------------------------------------------------
 		# Se é a primeira rodada, vai no aleatório:
 		else:
 			# Retorna algum valor aleatório:
+			self.cntMilagres = 0 									# Vamos zerar a variável, para que possamos analisar próximos deadlocks
+			tentarMatar = self.aleatorio(jogadores)
+			self.tentativas.append(tentarMatar)
+			return tentarMatar
+			
+		"""
 			vivos = {}
 			for nomeKey, jogador in jogadores.items():
 				if jogador.saude == 'Vivo' and jogador.getClass() != 'Assassino': 		# Assassino não comete suicídio e nem mata alguém que já está morto
@@ -82,7 +104,7 @@ class Assassino(Jogador):
 			jogador 		= jogadores[ choice( nomeVivos ) ] 							# Seleciona algum BOT que ainda esteja vivo
 			
 			return jogador.nome.lower()
-			
+		"""
 												
 		# ---------------------------------------------------------------------------------------------------------
 		"""

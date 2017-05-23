@@ -9,6 +9,16 @@ class Anjo(Jogador):
 	
 	# -------------------------------------------------------------------------------------------------------------------------------------------------------------
 	def escolherAlguem(self, jogadores, partida):
+		"""
+			TODO: 
+			Os anjos estão um pouco burros, pois eles sempre vão proteger a mesma pessoa toda partida,
+			enquanto os assassinos, depois de acontecer 2 milagres consecultivos, irão escolher outra pessoa aleatória.
+			Nós temos esse problema, pois a inteligência só é alterada no final de cada partida e não de cada rodada.
+		
+			Para melhorar isso, posso implementar a mesma inteligência dos assassinos, de escolher outra pessoa aleatória depois de 2 milagres,
+			ou posso antecipar a alteração da inteligência para cada rodada.
+		"""
+	
 		# ---------------------------------------------------------------------------------------------------------
 		if self.analisado is not None and (partida > 1): 		 		# Não é possível escolher alguém se nunca jogamos, e não existe inteligência na primeira partida!
 			escolhas 			= {}
@@ -20,20 +30,24 @@ class Anjo(Jogador):
 				jogador = jogadores[nomeKey]
 				
 				if jogador.saude == 'Vivo':								# Anjo só salva quem tá vivo
+					qtdTotal = analise['verdades'] + analise['mentiras']
+					
 					if jogador.getClass == 'Anjo':
 						if jogador.jaSalvo == 'False':					# Anjo só pode se salvar uma única vez
-							aux1 = analise['verdades'] / len(analise)
-							aux2 = analise['mentiras'] / len(analise)
+							aux1 = analise['verdades'] / qtdTotal
+							aux2 = analise['mentiras'] / qtdTotal
 							escolhas[nomeKey] = (aux1,aux2)
 					else:
-						aux1 = analise['verdades'] / len(analise)
-						aux2 = analise['mentiras'] / len(analise)
+						aux1 = analise['verdades'] / qtdTotal
+						aux2 = analise['mentiras'] / qtdTotal
 						escolhas[nomeKey] = (aux1,aux2)
 				
 					
 			
 			# ---------------------------------------------------------------------------
 			# Existe escolha?
+			
+			#print('Escolhas dos Anjos:',escolhas) 				# DEBUG
 			
 			if len(escolhas) > 0:
 				# ---------------------------------------------
@@ -84,7 +98,7 @@ class Anjo(Jogador):
 		# ---------------------------------------------------------------------------------------------------------
 		# Se é a primeira rodada, vai no aleatório:
 		else:
-			# Retorna algum valor aleatório:
+			# Retorna algum valor aleatório:,
 			vivos = {}
 			for nomeKey, jogador in jogadores.items():
 				if jogador.saude == 'Vivo': 											# Anjo só salva quem tá vivo

@@ -66,7 +66,7 @@ def distribuirCartas(nomeBOTS,qtdBOTS,qtdAssassinos,qtdAnjos, jogadores):
                         if carta == 'Assassino':
                                 if auxAss > 0:
                                         auxAss -= 1
-                                        jogadores[nomeKey] 	= Assassino (nome,'Vivo', honestidade, analisado)		# -1, 0 ou 1 para honestidade
+                                        jogadores[nomeKey] 	= Assassino (nome,'Vivo', honestidade, analisado)	# -1, 0 ou 1 para honestidade
                                         assassinos[nomeKey] = jogadores[nomeKey]
                                         tentarDeNovo 		= False
                                 else:
@@ -76,7 +76,7 @@ def distribuirCartas(nomeBOTS,qtdBOTS,qtdAssassinos,qtdAnjos, jogadores):
                                 if auxAnj > 0:
                                         auxAnj -= 1
                                         jogadores[nomeKey]              = Anjo (nome,'Vivo', honestidade, analisado)	# -1, 0 ou 1 para honestidade
-                                        jogadores[nomeKey].jaSalvo      = False 										# Cada anjo só pode ser salvo uma única vez por partida
+                                        jogadores[nomeKey].jaSalvo      = False 					# Cada anjo só pode ser salvo uma única vez por partida
                                         anjos[nomeKey]                  = jogadores[nomeKey]
                                         tentarDeNovo                    = False
                                 else:
@@ -85,7 +85,7 @@ def distribuirCartas(nomeBOTS,qtdBOTS,qtdAssassinos,qtdAnjos, jogadores):
                         elif carta == 'Cidadão':
                                 if auxCid > 0:
                                         auxCid -= 1
-                                        jogadores[nomeKey] 	= Cidadao (nome,'Vivo', honestidade, analisado)			# -1, 0 ou 1 para honestidade
+                                        jogadores[nomeKey] 	= Cidadao (nome,'Vivo', honestidade, analisado)		# -1, 0 ou 1 para honestidade
                                         cidadaos[nomeKey]  	= jogadores[nomeKey]
                                         tentarDeNovo 	   	= False
                                 else:
@@ -96,14 +96,14 @@ def distribuirCartas(nomeBOTS,qtdBOTS,qtdAssassinos,qtdAnjos, jogadores):
 
 # ----------------------------------------------------------------------------------------------------------------------------------------------------------------
 # Variáveis e Constantes
-usuario 		= Detetive() 								# O usuário será sempre detetive
+usuario 		= Detetive() 							# O usuário será sempre detetive
 
-qtdAnjos 		= 2 										# Constante, por enquanto...
-qtdAssassinos 	        = 2 										# Constante, por enquanto...
-qtdBOTS			= 9 										# Constante, por enquanto...
+qtdAnjos 		= 2 								# Constante, por enquanto...
+qtdAssassinos 	        = 2 								# Constante, por enquanto...
+qtdBOTS			= 9 								# Constante, por enquanto...
 
 jogadores 		= {}
-nomeBOTS 		= {}										# Lista de nomes que o usuário irá fornecer
+nomeBOTS 		= {}								# Lista de nomes que o usuário irá fornecer
 
 qtdBemVivos 	        = qtdBOTS - qtdAssassinos 					# Do Bem = Total + Detetive (não contaremos) - assassinos
 qtdKillersVivos         = qtdAssassinos
@@ -116,7 +116,7 @@ try:
         # ----------------------------------------------------------------------------------------------------------------------------------------------------------------
         # Imprimindo regras do jogo:
         import codecs
-        regras = codecs.open('README','r',encoding='utf8')                                       # regras = open('README','r')
+        regras = codecs.open('README','r',encoding='utf8')                              # regras = open('README','r')
         print( regras.read() )
         regras.close()
 
@@ -135,7 +135,7 @@ try:
                 jogadores[nome.lower()] = Jogador( nome, 'Vivo', choice( [-2, -1, 0, 1, 2] ), dict() ) 		# Criando BOTS, ainda sem cartas
                 nomeBOTS[nome.lower()]  = nome 																# nomeBOTS[vinicius] = ViNiCiUs, por exemplo
                 
-        tamMaiorNome = max( [len(nome) for nome in nomeBOTS] ) 											# recebendo o tamanho do maior nome
+        tamMaiorNome = max( [len(nome) for nome in nomeBOTS] ) 							# recebendo o tamanho do maior nome
                                 
         # --------------------------------------------------------------------------------------------------------------------------------------------------------------------
         # Iniciando partida:
@@ -161,10 +161,10 @@ try:
                 
                 # -------------------------------------------------------------------------------------------
                 # Rodadas:
-                while qtdBemVivos > 0 and qtdKillersVivos > 0: 						# A partida continuará até existirem pessoas boas vivas ou até o usuário advinhar todos assassinos
+                while qtdBemVivos > 0 and qtdKillersVivos > 0: 	# A partida continuará até existirem pessoas boas vivas ou até o usuário advinhar todos assassinos
                 
                         print ('\n-------------- // -------------- //-------------- //-------------- //-------------- //-------------- // \n')
-                        #[print(jogador.nome,jogador.saude,jogador.honestidade,jogador.getClass()) for jogador in jogadores.values()] 	# DEBUG
+                        #[print(jogador.nome,jogador.saude,jogador.honestidade,jogador.getClass()) for jogador in jogadores.values()] 	 # DEBUG
                         #print()                                                                                                         # DEBUG
                         
                         # ----------------------------------------------
@@ -175,6 +175,11 @@ try:
                                 if bossKiller.saude == 'Vivo':
                                         tentarMatar = bossKiller.escolherAlguem(jogadores, partida)
                                         break
+
+                        # TODO, a lista 'tentativas' e o 'cntMilagres' podiam ser STATIC para que não precisassemos iterar
+                        for assassino in assassinos.values():
+                                if assassino.nome != bossKiller.nome:                                   # Para não duplicar o registro
+                                        assassino.tentativas.append(bossKiller.tentativas[-1])          # Todos assassinos precisam ter a lista de tantativas
                                         
                         """
                         
@@ -204,7 +209,7 @@ try:
                                         
                         # ----------------------------------------------
                         # Detetive, ACORDE:
-                        if usuario.saude == 'Vivo': 										# Usuário só pode influênciar no jogo se ele não morreu
+                        if usuario.saude == 'Vivo': 							# Usuário só pode influênciar no jogo se ele não morreu
                                 
                                 # -----------------------
                                 # Detentive perguntando:
@@ -228,44 +233,59 @@ try:
 
                                 # -----------------------
                                 # BOT respondendo o Detetive:
-                                jogador 	= jogadores[ nomeKey ]
-                                resposta 	= jogador.responder( perguntas[escolha] )
+                                jogador  = jogadores[ nomeKey ]
+                                resposta = jogador.responder( perguntas[escolha] )
                                                 
                                 if nomeKey not in usuario.jogadoresConhecidos:				# Caso seja a primeira pergunta feita a esse BOT...
-                                        usuario.jogadoresConhecidos[ nomeKey ] = list()			# 	... criamos uma lista das respostas desse BOT
+                                        usuario.jogadoresConhecidos[ nomeKey ] = list()			# ... criamos uma lista das respostas desse BOT
                                                         
                                 usuario.jogadoresConhecidos[ nomeKey ].append(resposta)	                # Lista de respostas do BOT
                                 
-                                # -----------------------
-                                # Conhecidos do Detetive:
-                                print()
-                                for nomeKey,respostas in usuario.jogadoresConhecidos.items():
-                                        print(nomeBOTS[nomeKey],':',sep='')
-                                        for resposta in respostas:
-                                                print('\t',resposta)
-                                                
+                                # ----------------------------------------------
+                                # Atualizando Inteligência
+                                """
+                                       Para que o jogo fique mais frenético,
+                                        a inteligência dos BOTs será atualizada
+                                        a cada rodada ao invés de cada partida.
+                                        Pois, do jeito que estava tinhamos um "deadlock"
+                                """
+
+                                for jogador in jogadores.values():
+                                        jogador.analisarRespostasPorRodada(jogadores, nomeKey, resposta)
+                                        #print(jogador.analisado)                                        # DEBUG
+                        
                         # ----------------------------------------------
                         # Locutor conta uma história:
-                        print(tentarMatar, tentarSalvar)
-                        if (tentarMatar == tentarSalvar): 					        # Se assassinos e anjos escolheram a mesma pessoa, temos um milagre!
+                                                                                        
+                        # print('\nKiller Chose:',tentarMatar, '\nAngel Chose:', tentarSalvar)    # DEBUG
+                        
+                        if (tentarMatar == tentarSalvar): 				        # Se assassinos e anjos escolheram a mesma pessoa, temos um milagre!
                                 print("\n\n!!! MILAGRE !!!\n")
+
+                                # TODO: a lista 'tentativas' e o 'cntMilagres' podiam ser STATIC para que não precisassemos iterar
+                                for assassino in assassinos.values():    
+                                        assassino.cntMilagres += 1
+                                
                         else:
+                                # TODO: tem que reiniciar o 'cntMilagres' de todos os assassinos '-'
+                                # TODO: a lista 'tentativas' e o 'cntMilagres' podiam ser STATIC para que não precisassemos iterar
+                                
                                 print("\n\n!!! " + nomeBOTS[tentarMatar] + " MORREU !!!\n")
                                 jogadores[tentarMatar].saude = 'Morto'
-                                qtdBemVivos -= 1 							# Os assassinos nunca se matarão !
+                                qtdBemVivos -= 1							          # Os assassinos nunca se matarão !
+
+
+                        #for assassino in assassinos.values():                                                   # DEBUG
+                        #        print('Killers', assassino.nome, assassino.cntMilagres, assassino.tentativas)   # DEBUG
                 
                         # ----------------------------------------------
-                        # Cidade realiza uma votação
-                        # TODO: Inteligência artificial dos cidadãos, assassinos e anjos
-                        
-                        """
-                                No jogo de verdade, a cidade faria uma votação para eliminar alguém,
-                                mas, estarei mudando um pouco o jogo e as únicas ações que os jogadores terão são:
-                                        - Assassinos tentarem  matar  alguém
-                                        - Anjos 	 tentarem  salvar alguém
-                                        - Detetive	 perguntar para   alguém
-                                        - Detetive	 arriscar  dizer  quem são os assassinos
-                        """
+                        # Conhecidos do Detetive:
+                        print()
+                        for nomeKey,respostas in usuario.jogadoresConhecidos.items():
+                                print(nomeBOTS[nomeKey],':',sep='')
+                                for resposta in respostas:
+                                        print('\t',resposta)
+                        print()
                         # ----------------------------------------------
                         # Detetive tem a chance de matar um dos assassinos:
                         escolha = 0
@@ -288,14 +308,15 @@ try:
                                         print("\nOkay")
                                 else:
                                         print('\nOpção inválida\n')
-                                
+                                        
+                        
                 # -------------------------------------------------------------------------------------------
                 # Revelando cartas:
                 print('\n\nFim de Jogo:')
                 [print(jogador) for jogador in jogadores.values()]
                 
-                for jogador in jogadores.values():
-                        jogador.analisarRespostas(jogadores, usuario.jogadoresConhecidos)
+                #for jogador in jogadores.values():
+                #        jogador.analisarRespostas(jogadores, usuario.jogadoresConhecidos)
                         
                 """
                         No jogo de verdade, ninguém teria as informações que o detetive obteve,
@@ -314,10 +335,10 @@ try:
                                 sair = True
                                         
                         elif escolha == 's':
-                                qtdKillersVivos = qtdAssassinos 							# Assassinos voltam a viver
+                                qtdKillersVivos = qtdAssassinos 						# Assassinos voltam a viver
                                 qtdBemVivos 	= qtdBOTS - qtdAssassinos					# Galera do bem volta a viver
                                 usuario.jogadoresConhecidos.clear() 						# Limpando o dicionário dos conhecidos do usuário
-                                usuario.saude 	= "Vivo" 									# Caso o usuário tenha morrido, vamos revivê-lo
+                                usuario.saude 	= "Vivo" 							# Caso o usuário tenha morrido, vamos revivê-lo
                                 
                                 partida += 1
                                                         

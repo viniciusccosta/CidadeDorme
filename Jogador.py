@@ -82,7 +82,7 @@ class Jogador:
 
 			carta 	= jogadores[nomeKey].getClass() 						# Essa é a carta de verdade do BOT
 			
-			# Verificando cada resposta desse BOT:	
+			# Verificando cada resposta desse BOT:
 			for resposta in respostas:
 				respSplit = resposta.replace(',','').split()
 				
@@ -121,6 +121,33 @@ class Jogador:
 					}
 							
 	"""
+	
+	def analisarRespostasPorRodada(self, jogadores, nomeKey, resposta):
+		# Neste caso respostas terá sempre tamanho 1
+		# print('RESP POR RODADA', nomeKey, resposta) 					# DEBUG
+		verdade = 0
+		mentira = 0
+
+		carta 	= jogadores[nomeKey].getClass() 						# Essa é a carta de verdade do BOT
+			
+		respSplit = resposta.replace(',','').split()
+				
+		afirmacao = respSplit[0] 										# "Sim, ..." ou "Não, ...", queremos saber se ele disse sim ou não !
+		pergunta  = respSplit[-1] 										# "... Assassino"	      , queremos saber sobre qual carta ele respondeu
+				
+		if   afirmacao == 'Sim' and pergunta == carta:
+			verdade += 1
+		elif afirmacao == 'Não' and pergunta != carta:
+			verdade += 1
+		else:
+			mentira += 1
+			
+		# Armazenando a análise
+		if nomeKey not in self.analisado: 								# Se é a primeira vez que está analisando esse BOT, precisamos criar os dicionários internos
+			self.analisado[nomeKey] = {'verdades': 0, 'mentiras': 0}
+				
+		self.analisado[nomeKey]['verdades'] += verdade
+		self.analisado[nomeKey]['mentiras'] += mentira
 	
 	# -----------------------------------------------------------------------------------------------------------------------------------------------------------------	
 	def getClass(self):
