@@ -42,7 +42,7 @@ Regras:
 	- Uma inteligência artificial, do tipo Multi-Agente, foi implementada para os assassinos e para os anjos
 		- Na primeira partida não existe inteligência, ou seja, os asssassinos e os anjos escolheram BOTs aleatórios
 		- Os assassinos tentarão sempre matar em primeiro lugar os BOTs que só falam a verdade ou os BOTs que só mentem
-		- Os anjos tentaram o mesmo que os assassinos, entretanto, cada anjo só pode ser imunizado uma única vez
+		- Os anjos tentarão o mesmo que os assassinos, entretanto, cada anjo só pode ser imunizado uma única vez
 		- Caso os assassinos reparem que os anjos estão sempre protegendo a mesma pessoa, irão escolher outro BOT de forma aleatória
 	- Nenhuma informação das partidas jogadas serão armazenadas para futuras jogatinas
 
