@@ -1,19 +1,55 @@
 Projeto Final - Inteligência Artificial
+Vinícius C. Costa
+24/05/2017
 
-Baseado no jogo chamado "Cidade Dorme",
-estou a implementar algumas inteligências para os diferentes personagens,
-no intuito de qualquer usuário poder jogar e desafiar-se a ganhar do computador.
+Esse projeto é um jogo próprio baseado no jogo "Cidade Dorme".
+O nome dos personagens, sendo eles: Assassino, Anjo, Cidadão e Detetive, são os mesmos, entretando a dinâmica do jogo foi alterada.
 
+Regras:
+	- O jogo será jogado apenas por uma única pessoa, os outros personagens serão BOTs
+	- O usuário sempre será o detetive/profeta
+	- Não existe um narrador/juíz
+	- O jogo será composto de várias partidas, sendo que cada partida é composta de várias rodadas
+	- Os personagens serão distribuídos de forma aleatória entre os BOTs no início de cada partida
+	- O usuário deverá informar um nome para cada BOT no início da primeira partida
+	- Não serão aceitos nomes em branco ou o nome "REVISAR"
+	- Cada BOT terá um nível de honestidade, sendo gerado aleatóriamente toda vez que o jogo for aberto
+	- O nível de honestidade de cada BOT será o mesmo para todas as partidas
+	- Os níveis de honestidade são:
+		- sempre mente
+		- mente muito
+		- meio a meio
+		- quase não mente
+		- nunca mente
+	- O usuário não tem acesso ao nível de honestidade dos BOTs
+	- O usuário, que será o detetive, toda rodada terá o direito de fazer uma pergunta para algum dos BOTs
+	- As perguntas do detetive já foram pré-estabelecidas, sendo elas:
+		- "Ciclano" você é Assassino?
+		- "Ciclano" você é Anjo?
+		- "Ciclano" você é Cidadão?
+	- O detetive sempre terá acesso a todas a respostas da partida atual
+	- Não é possível realizar uma pergunta para algum BOTs que tenha sido morto
+	- O detetive no final de cada rodada também terá a chance de tentar advinhar quem são os assassinos
+		- Caso o detetive erre, a partida é encerrada e os assassinos ganham um ponto
+		- Caso o detetive acerte, o assassino morrerá e estará fora da partida
+	- Se o detetive acertar quem são todos os assassinos, a partida é encerrada e o detetive ganha um ponto
+	- Os cidadãos não possuem nenhum papel ativo no jogo
+	- Os anjos, em cada rodada, terão a oportunidade de escolher, de forma secreta, alguém para tentar salvar
+	- Os assasinos terão a mesma oportunidade que os anjos, mas com o intúito de tentar matar alguém
+	- Caso os anjos e os assassinos escolham o mesmo BOT, esse BOT não será morto
+	- Caso os anjos e os assassinos escolham BOTs diferentes, o BOT morrerá e estará fora da partida
+	- Caso todos os cidadãos e os anjos morram, a partida é encerrada e os assassinos ganham um ponto
+	- Uma inteligência artificial, do tipo Multi-Agente, foi implementada para os assassinos e para os anjos
+		- Na primeira partida não existe inteligência, ou seja, os asssassinos e os anjos escolheram BOTs aleatórios
+		- Os assassinos tentarão sempre matar em primeiro lugar os BOTs que só falam a verdade ou os BOTs que só mentem
+		- Os anjos tentaram o mesmo que os assassinos, entretanto, cada anjo só pode ser imunizado uma única vez
+		- Caso os assassinos reparem que os anjos estão sempre protegendo a mesma pessoa, irão escolher outro BOT de forma aleatória
+	- Nenhuma informação das partidas jogadas serão armazenadas para futuras jogatinas
 
-
-Objetivos do jogo original:
+Informações sobre o jogo original:
+	- https://pt.wikipedia.org/wiki/Cidade_dorme
+	- "Cidade Dorme originou uma versão para os amantes de O Senhor dos Anéis, O Condado Dorme. A essência do jogo é a mesma, apenas mudando o nome dos personagens. Para o Juiz, usa-se o nome de Eru, O Criador, no universo tolkieniano. Para os assassinos, Orcs; para o Anjo, usa-se Maia, uma divindade e para o Delegado, usa-se Ranger, ou Guardião. Os Cidadãos são Hobbits, os habitantes do Condado"
 	
-Cidadãos 	devem tentar eliminar 	os assassinos 	através da votação, e também encobrirem os anjos e o detetive para quem os assasinos não os descubram
-Assassinos 	devem tentar matar 		a  cidade,    	enganar a cidade para votarem em outras pessoas e tentarem não ser descobertos
-Anjos 		devem tentar descobrir 	o  detetive 	para tentar salva-lo, tentarem não serem descobertos e tentarem salvar o máximo de pessoas
-Detetive	deve  tentar descobrir 	os assassinos 	e convencer a cidade a votarem neles, além de tentar não ser descoberto
-
-Lembrando que na votação a pessoa é ELIMINADA
-Já, os assasinos podem tentar MATAR alguém.
-Em ambos casos significa que essa pessoa eliminada/morta deixará de jogar até o fim da partida,
-mas uma coisa é uma coisa e outra coisa é outra coisa kkkkkkkk
+Para sair:
+	- CTRL + c
+	- e depois ENTER
