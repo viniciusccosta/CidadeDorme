@@ -130,7 +130,7 @@ try:
 	for i in range(qtdBOTS):
 		nome = input('Digite o nome do BOT %i: ' %(i))
 
-		while nome in nomeBOTS or nome == '' or nome == 'REVISAR':									# REVISAR é uma palavra reservada
+		while nome.lower() in nomeBOTS or nome == '' or nome == 'REVISAR':									# REVISAR é uma palavra reservada
 			nome = input('Digite outro nome: ')
 
 		jogadores[nome.lower()]	= Jogador( nome, 'Vivo', choice( [-2, -1, 0, 1, 2] ), dict() ) 		# Criando BOTS, ainda sem cartas
@@ -169,6 +169,7 @@ try:
 			rodada += 1
 			print('Partida:',partida)
 			print('Rodada:',rodada)
+			print('Assassinos Vivos:',qtdKillersVivos)
 			print('Usuário',ptUsuario,'vs',ptAssassinos,'Assassinos')
 			print ('\n-------------- // -------------- //-------------- //-------------- //-------------- //-------------- // \n')
 			#[print(jogador.nome,jogador.saude,jogador.honestidade,jogador.getClass()) for jogador in jogadores.values()]	# DEBUG
@@ -234,12 +235,12 @@ try:
 				while nomeKey not in jogadores or jogadores[nomeKey].saude == 'Morto':
 					print("\n*** OPÇÃO INVÁLIDA ***\n")
 					[print('%*s %s' %(tamMaiorNome,jogador.nome,jogador.saude)) for jogador in jogadores.values()]
-					nome 	= input('\nDetetive, escolha alguém: ')
-					nomeKey = nome.lower()
+					entrada 	= input('\nDetetive, escolha alguém: ')
+					nomeKey = entrada.lower()
 
 				escolha = 0
 				while escolha not in perguntas:
-					print("\n1) " + nome + " você é Assassino? \n2) " + nome + " você é Anjo? \n3) " + nome + " você é Cidadão?" )
+					print("\n1) " + entrada + " você é Assassino? \n2) " + entrada + " você é Anjo? \n3) " + entrada + " você é Cidadão?" )
 					escolha = int( input('Escolha uma pergunta: ') )
 
 				# -----------------------
@@ -312,6 +313,7 @@ try:
 								jogador.saude = 'Morto'
 								qtdKillersVivos -= 1
 								print('\n\n\n')
+								_ = input('<ENTER> para continuar')
 						else:
 							print('*** ERROU ***\n\n\n')
 							qtdBemVivos = 0
