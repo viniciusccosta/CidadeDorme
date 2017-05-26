@@ -241,7 +241,10 @@ try:
 				escolha = 0
 				while escolha not in perguntas:
 					print("\n1) " + entrada + " você é Assassino? \n2) " + entrada + " você é Anjo? \n3) " + entrada + " você é Cidadão?" )
-					escolha = int( input('Escolha uma pergunta: ') )
+					try:
+						escolha = int( input('Escolha uma pergunta: ') )
+					except ValueError:
+						print('\n*** Digite apenas o número da pergunta ***')
 
 				# -----------------------
 				# BOT respondendo o Detetive:
